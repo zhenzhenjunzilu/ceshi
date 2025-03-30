@@ -224,4 +224,45 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化语言
     switchLanguage('zh');
-}); 
+});
+
+// 修改图片加载逻辑
+async function loadParticipantImages() {
+    try {
+        // 使用新的 getParticipantImages 函数
+        const result = await getParticipantImages();
+        
+        if (result.success) {
+            const participantList = document.getElementById('participant-list');
+            participantList.innerHTML = ''; // 清空现有列表
+
+            result.participants.forEach(participant => {
+                const participantDiv = document.createElement('div');
+                participantDiv.className = 'participant';
+                
+                const img = document.createElement('img');
+                img.src = participant.image;
+                img.alt = participant.name;
+                
+                const nameSpan = document.createElement('span');
+                nameSpan.textContent = participant.name;
+                
+                participantDiv.appendChild(img);
+                participantDiv.appendChild(nameSpan);
+                
+                participantList.appendChild(participantDiv);
+            });
+        } else {
+            console.error('未找到参与者图片');
+            const participantList = document.getElementById('participant-list');
+            participantList.innerHTML = '<p>暂无参与者信息</p>';
+        }
+    } catch (error) {
+        console.error('加载参与者图片失败:', error);
+        const participantList = document.getElementById('participant-list');
+        participantList.innerHTML = '<p>加载参与者信息失败</p>';
+    }
+}
+
+// 页面加载时调用
+document.addEventListener('DOMContentLoaded', loadParticipantImages); 
