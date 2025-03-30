@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<title>烟花模拟器</title>
+		<title>STAUFF30周年庆典幸运大抽奖</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -149,6 +149,19 @@
 		<script src="./js/Stage.js"></script>
 		<script src="./js/MyMath.js"></script>
 		<script src="./js/script.js"></script>
+		<script>
+			// 添加双击和键盘事件进入抽奖页面
+			document.addEventListener('dblclick', function() {
+				window.location.href = 'lottery.html';
+			});
+
+			// 添加空格和回车键跳转
+			document.addEventListener('keydown', function(event) {
+				if (event.code === 'Space' || event.code === 'Enter') {
+					window.location.href = 'lottery.html';
+				}
+			});
+		</script>
 	</body>
 </html>
 
