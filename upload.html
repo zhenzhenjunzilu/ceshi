@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>西德福中国30周年庆典 | Siedefo China 30th Anniversary | Siedefo China 30. Jubiläum</title>
+    <link rel="stylesheet" href="style.css?v=1.1">
+    <link rel="stylesheet" href="fonts/all.min.css">
+    <style>
+        /* 移动端适配 */
+        @media screen and (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .form-container {
+                padding: 1rem;
+            }
+            .form-group input, .file-upload button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .submit-btn-container button {
+                padding: 0.8rem 1.5rem;
+                font-size: 14px;
+            }
+        }
+
+        /* 语言选择样式 */
+        .language-switcher {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+        .language-switcher button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 2px solid transparent;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .language-switcher button.active {
+            background: #FFD700;
+            color: #007E5C;
+            border-color: #007E5C;
+            font-weight: bold;
+        }
+        .language-switcher button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-top: 35px;
+        }
+        .form-group {
+            margin-bottom: 30px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        .file-upload {
+            display: flex;
+            align-items: center;
+        }
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        .file-upload button {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .file-upload button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .preview-container {
+            margin-top: 30px;
+        }
+        .preview-image-container {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .preview-image-container img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        .submit-btn-container {
+            margin-top: 35px;
+        }
+        .submit-btn-container button {
+            background: #FFD700;
+            color: #007E5C;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .submit-btn-container button:hover {
+            transform: scale(1.05);
+            background: #FFEC8B;
+        }
+        .error-message {
+            color: #FF4500;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #fff;
+            border-top: 5px solid #FFD700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 126, 92, 0.9);
+            color: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+        .form-control {
+            margin-top: 10px;
+        }
+        .upload-btn-container {
+            margin-top: 15px;
+        }
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .form-group {
+                margin-bottom: 15px;
+            }
+        }
+        .header {
+            margin-bottom: 45px;
+            text-align: center;
+        }
+        .header .logo {
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            margin-top: 20px;
+        }
+        .instructions {
+            margin-bottom: 35px;
+        }
+        /* 添加平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-switcher">
+            <button data-lang="zh" class="active">中文</button>
+            <button data-lang="en">English</button>
+            <button data-lang="de">Deutsch</button>
+        </div>
+        
+        <div class="header">
+            <div class="logo">
+                <img src="images/logo.png" alt="Siedefo Logo" style="max-width: 150px;">
+            </div>
+            <h1 data-lang-zh="西德福中国30周年庆典照片上传" 
+                data-lang-en="Siedefo China 30th Anniversary Photo Upload" 
+                data-lang-de="Siedefo China 30. Jubiläum Foto-Upload">
+                西德福中国30周年庆典照片上传
+            </h1>
+        </div>
+        
+        <div class="form-container">
+            <div class="instructions">
+                <p data-lang-zh="请上传您的照片和输入姓名，以便参与庆典抽奖活动。" 
+                   data-lang-en="Please upload your photo and enter your name to participate in the anniversary lucky draw." 
+                   data-lang-de="Bitte laden Sie Ihr Foto hoch und geben Sie Ihren Namen ein, um an der Jubiläumsverlosung teilzunehmen.">
+                    请上传您的照片和输入姓名，以便参与庆典抽奖活动。
+                </p>
+            </div>
+            
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label data-lang-zh="姓名" data-lang-en="Name" data-lang-de="Name">姓名</label>
+                    <input type="text" id="name" name="name" required>
+                    <div class="error-message" id="name-error"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label data-lang-zh="照片" data-lang-en="Photo" data-lang-de="Foto">照片</label>
+                    <div class="file-upload">
+                        <input type="file" id="photo" name="photo" accept="image/*" required>
+                        <button type="button" id="upload-btn" data-lang-zh="点击选择照片" data-lang-en="Choose a photo" data-lang-de="Foto auswählen">点击选择照片</button>
+                    </div>
+                    <div class="error-message" id="photo-error"></div>
+                </div>
+                
+                <div class="preview-container" id="preview-container" style="display: none;">
+                    <h3 data-lang-zh="照片预览" data-lang-en="Photo Preview" data-lang-de="Foto-Vorschau">照片预览</h3>
+                    <div class="preview-image-container">
+                        <img id="preview-image" src="" alt="Preview">
+                    </div>
+                </div>
+                
+                <div class="submit-btn-container">
+                    <button type="button" id="submit-btn" data-lang-zh="提交" data-lang-en="Submit" data-lang-de="Einreichen">提交</button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p data-lang-zh="上传中..." data-lang-en="Uploading..." data-lang-de="Hochladen...">上传中...</p>
+        </div>
+        
+        <div id="success-message" class="success-message">
+            <p data-lang-zh="照片上传成功！谢谢您的参与！" 
+               data-lang-en="Photo uploaded successfully! Thank you for your participation!" 
+               data-lang-de="Foto erfolgreich hochgeladen! Vielen Dank für Ihre Teilnahme!">
+                照片上传成功！谢谢您的参与！
+            </p>
+        </div>
+    </div>
+    
+    <!-- 在 script 标签之前添加一个滚动按钮 -->
+    <div id="scroll-to-submit" class="scroll-to-submit" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #FFD700; color: #007E5C; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.3); cursor: pointer; z-index: 1000;">
+        <i class="fas fa-arrow-down"></i>
+    </div>
+
+    <script src="upload.js?v=1.5"></script>
+    <script>
+        // 添加滚动到提交按钮的功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const previewContainer = document.getElementById('preview-container');
+            const submitBtn = document.getElementById('submit-btn');
+            const scrollToSubmitBtn = document.getElementById('scroll-to-submit');
+
+            // 监听预览容器的显示
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                        if (previewContainer.style.display !== 'none') {
+                            // 预览容器显示时，显示滚动按钮
+                            scrollToSubmitBtn.style.display = 'flex';
+                        } else {
+                            // 预览容器隐藏时，隐藏滚动按钮
+                            scrollToSubmitBtn.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            // 配置观察器
+            observer.observe(previewContainer, { attributes: true });
+
+            // 点击滚动按钮时滚动到提交按钮
+            scrollToSubmitBtn.addEventListener('click', function() {
+                submitBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+</body>
+</html> 

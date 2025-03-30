@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stauff China 30周年庆典 - 幸运抽奖</title>
+    <link rel="stylesheet" href="style.css?v=1.8">
+</head>
+<body>
+    <div class="container">
+        <h1>30周年庆典抽奖</h1>
+        
+        <div class="bubbles-container" id="bubblesContainer">
+            <!-- 泡泡将通过JavaScript动态生成 -->
+        </div>
+        
+        <div class="winner-display" id="winnerDisplay">
+            <div class="winner-content">
+                <!-- 皇冠元素 -->
+                <div class="crown"></div>
+                
+                <!-- 添加鲜花装饰 -->
+                <div class="flower flower1"></div>
+                <div class="flower flower2"></div>
+                <div class="flower flower3"></div>
+                <div class="flower flower4"></div>
+                <div class="flower flower5"></div>
+                <div class="flower flower6"></div>
+                <div class="flower flower7"></div>
+                <div class="flower flower8"></div>
+                <div class="flower flower9"></div>
+                <div class="flower flower10"></div>
+                
+                <img id="winnerImage" src="" alt="获奖者照片">
+                <h2 id="winnerName"></h2>
+            </div>
+        </div>
+        
+        <!-- 隐藏的操作提示 -->
+        <div class="instruction-hint">按空格键或回车键开始/停止抽奖</div>
+    </div>
+    
+    <script src="script.js?v=1.9"></script>
+    <script>
+        // 返回烟花页面的键盘事件
+        document.addEventListener('keydown', function(event) {
+            // 回车键返回烟花页面
+            if (event.code === 'Enter') {
+                window.location.href = 'index.html';
+            }
+            
+            // 阻止空格键的默认滚动行为
+            if (event.code === 'Space') {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html> 
