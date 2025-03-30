@@ -96,53 +96,66 @@ class LotterySystem {
     
     async init() {
         try {
-            // 直接使用get_images.php获取图片
-            const response = await fetch('get_images.php');
-            const data = await response.json();
+            // 获取参与者图片信息
+            const result = await getParticipantImages();
             
-            console.log('获取图片响应:', data); // 添加调试日志
-            
-            if (data.success && data.participants && data.participants.length > 0) {
-                // 直接使用返回的参与者数据
-                this.participants = data.participants;
-                
-                // 创建泡泡
-                this.createBubbles();
-                
-                console.log(`已加载 ${this.participants.length} 名参与者`);
-                
-                // 显示状态信息
-                if (document.getElementById('loadStatus')) {
-                    document.getElementById('loadStatus').textContent = 
-                        `已成功加载 ${this.participants.length} 名参与者`;
-                }
+            if (result.success && result.participants.length > 0) {
+                // 更新参与者列表
+                const participantList = document.getElementById('participant-list');
+                participantList.innerHTML = ''; // 清空现有列表
+
+                result.participants.forEach(participant => {
+                    const participantDiv = document.createElement('div');
+                    participantDiv.className = 'participant';
+                    
+                    const img = document.createElement('img');
+                    img.src = participant.image;
+                    img.alt = participant.name;
+                    
+                    const nameSpan = document.createElement('span');
+                    nameSpan.textContent = participant.name;
+                    
+                    participantDiv.appendChild(img);
+                    participantDiv.appendChild(nameSpan);
+                    
+                    participantList.appendChild(participantDiv);
+                });
+
+                // 初始化抽奖逻辑
+                const participants = result.participants;
+                const winnerImage = document.getElementById('winnerImage');
+                const winnerName = document.getElementById('winnerName');
+                const drawButton = document.getElementById('drawButton');
+
+                drawButton.addEventListener('click', function() {
+                    if (participants.length > 0) {
+                        // 随机选择一个参与者
+                        const randomIndex = Math.floor(Math.random() * participants.length);
+                        const winner = participants[randomIndex];
+
+                        // 显示中奖者信息
+                        winnerImage.src = winner.image;
+                        winnerName.textContent = winner.name;
+
+                        // 移除已中奖的参与者
+                        participants.splice(randomIndex, 1);
+
+                        // 如果没有更多参与者，禁用抽奖按钮
+                        if (participants.length === 0) {
+                            drawButton.disabled = true;
+                            drawButton.textContent = '抽奖已结束';
+                        }
+                    }
+                });
             } else {
-                // 详细的错误日志
-                console.error('未找到参与者图片', data);
-                
-                // 显示更详细的错误信息
-                alert(`未找到参与者图片。调试信息：${JSON.stringify(data.debug || '无额外信息')}`);
-                
-                throw new Error('未找到参与者图片');
+                console.error('未找到参与者');
+                const participantList = document.getElementById('participant-list');
+                participantList.innerHTML = '<p>暂无参与者信息</p>';
             }
         } catch (error) {
-            console.error('初始化失败:', error);
-            
-            // 更详细的错误处理
-            let errorMessage = '加载参与者信息失败。';
-            if (error instanceof TypeError) {
-                errorMessage += ' 网络错误或服务器响应异常。';
-            } else if (error instanceof SyntaxError) {
-                errorMessage += ' 服务器返回的数据格式不正确。';
-            }
-            
-            alert(errorMessage);
-            
-            // 显示错误信息
-            if (document.getElementById('loadStatus')) {
-                document.getElementById('loadStatus').textContent = errorMessage;
-                document.getElementById('loadStatus').style.backgroundColor = 'rgba(255,0,0,0.2)';
-            }
+            console.error('加载参与者信息失败:', error);
+            const participantList = document.getElementById('participant-list');
+            participantList.innerHTML = '<p>加载参与者信息失败</p>';
         }
     }
     
